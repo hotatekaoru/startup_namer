@@ -16,12 +16,16 @@ class RandomWordsState extends State<RandomWords> {
   // ここでいう「値」は、<WordPair>[]のこと
   // そのあとに、_suggestions.addみたいなことはfinalでは可能
   final List<WordPair> _suggestions = <WordPair>[];
+  final Set<WordPair> _saved = new Set<WordPair>();
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: const Text('Startup Name Generator'),
+        actions: <Widget>[
+          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
+        ],
       ),
       body: _buildSuggestions(),
     );
@@ -49,10 +53,56 @@ class RandomWordsState extends State<RandomWords> {
   // Widgetの中にWidgetを格納することもできる。このままだと可読性悪いな・・・
   // アンスコから始まるWidgetはprivateとして扱われる(Classなども)
   Widget _buildRow(WordPair pair) {
+    // 型予測してくれる
+    final alreadySaved = _saved.contains(pair);
+
     return new ListTile(
       title: new Text(
         pair.asPascalCase,
         style: _biggerFont,
+      ),
+      trailing: new Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : null,
+      ),
+      onTap: () {
+        setState(() {
+          // _savedはSet<WordPair>型
+          alreadySaved ? _saved.remove(pair) : _saved.add(pair);
+        });
+      },
+    );
+  }
+
+  void _pushSaved() {
+    Navigator.of(context).push(
+      new MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          // Set<WordPair>型の_saved毎に、ListTileWidgetのIterableに設定する
+          // IterableはListの抽象クラス
+          final Iterable<ListTile> tiles = _saved.map(
+            (WordPair pair) {
+              return new ListTile(
+                title: new Text(
+                  pair.asPascalCase,
+                  style: _biggerFont,
+                ),
+              );
+            },
+          );
+
+          final List<Widget> divided = ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
+
+          return new Scaffold(
+            appBar: new AppBar(
+              title: const Text('Saved Suggestions'),
+            ),
+            body: new ListView(children: divided),
+          );
+        },
       ),
     );
   }
