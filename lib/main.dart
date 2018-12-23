@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './startup_namer/app.dart';
+import './friendly_chat/app.dart';
 
 void main() => runApp(new MyApp());
 
@@ -8,9 +10,21 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Flutter Demo',
+      theme: defaultTargetPlatform == TargetPlatform.iOS ? kIOSTheme : kDefaultTheme,
       home: new TopPage(),
     );
   }
+
+  final ThemeData kIOSTheme = new ThemeData(
+    primarySwatch: Colors.orange,
+    primaryColor: Colors.grey[100],
+    primaryColorBrightness: Brightness.light,
+  );
+
+  final ThemeData kDefaultTheme = new ThemeData(
+    primarySwatch: Colors.purple,
+    accentColor: Colors.orangeAccent[400],
+  );
 }
 
 class TopPage extends StatefulWidget {
@@ -65,6 +79,8 @@ List<Page> pageList() {
   final list = List<Page>();
   list.addAll([
     Page(columnName: 'StartupNamer', columnIcon: Icons.insert_emoticon, nextScreenWidget: StartupNamer()),
+    Page(columnName: 'FriendlyChat', columnIcon: Icons.chat, nextScreenWidget: FriendlyChat()),
   ]);
   return list;
 }
+
