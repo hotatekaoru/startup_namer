@@ -34,12 +34,11 @@ class _TopPageState extends State<TopPage> {
               child: Card(
                 child: ListTile(
                   title: Text(_pageItem.columnName),
-                  leading: Icon(Icons.insert_emoticon),
+                  leading: Icon(_pageItem.columnIcon),
                 ),
               ),
               onTap: () {
-                Navigator.push(context, new MaterialPageRoute<Null>(
-                  settings: RouteSettings(name: _pageItem.routeName),
+                Navigator.of(context).push(new MaterialPageRoute<void>(
                   builder: (BuildContext context) => _pageItem.nextScreenWidget
                 ));
               },
@@ -54,18 +53,18 @@ class _TopPageState extends State<TopPage> {
 // structにしたいところだけど、Dartにはstructがない・・・
 class Page {
   String columnName;
-  String routeName;
+  IconData columnIcon;
   Widget nextScreenWidget;
 
   // これがsetterの代わりになり、キーワード引数を伴ってnewできるようになる
   @required
-  Page({this.columnName, this.routeName, this.nextScreenWidget});
+  Page({this.columnName, this.columnIcon, this.nextScreenWidget});
 }
 
 List<Page> pageList() {
   final list = List<Page>();
   list.addAll([
-    Page(columnName: 'StartupNamer', routeName: 'startup_namer', nextScreenWidget: StartupNamer()),
+    Page(columnName: 'StartupNamer', columnIcon: Icons.insert_emoticon, nextScreenWidget: StartupNamer()),
   ]);
   return list;
 }
