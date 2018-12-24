@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import './startup_namer/app.dart';
 import './friendly_chat/app.dart';
+import './firebase_sample/app.dart';
 
 void main() => runApp(new MyApp());
 
@@ -80,6 +81,7 @@ List<Page> pageList() {
   list.addAll([
     Page(columnName: 'StartupNamer', columnIcon: Icons.insert_emoticon, nextScreenWidget: StartupNamer()),
     Page(columnName: 'FriendlyChat', columnIcon: Icons.chat, nextScreenWidget: FriendlyChat()),
+    Page(columnName: 'FirebaseSample', columnIcon: Icons.store_mall_directory, nextScreenWidget: FirebaseSample()),
   ]);
   return list;
 }
