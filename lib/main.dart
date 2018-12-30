@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './startup_namer/app.dart';
 import './friendly_chat/app.dart';
 import './firebase_sample/app.dart';
+import './note/app.dart';
 import './shrine/app.dart';
 
 void main() => runApp(new MyApp());
@@ -84,6 +85,7 @@ List<Page> pageList() {
     Page(columnName: 'FriendlyChat', columnIcon: Icons.chat, nextScreenWidget: FriendlyChat()),
     Page(columnName: 'FirebaseSample', columnIcon: Icons.store_mall_directory, nextScreenWidget: FirebaseSample()),
     Page(columnName: 'Shrine', columnIcon: Icons.store_mall_directory, nextScreenWidget: ShrineApp()),
+    Page(columnName: 'Note(FireStore)', columnIcon: Icons.store_mall_directory, nextScreenWidget: ListViewNote()),
   ]);
   return list;
 }
